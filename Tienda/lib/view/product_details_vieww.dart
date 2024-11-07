@@ -26,8 +26,9 @@ class ProductDetailsView extends StatelessWidget {
               imagen,
               loadingBuilder: (BuildContext context, Widget child,
                   ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null)
+                if (loadingProgress == null) {
                   return child; // La imagen se ha cargado
+                }
                 return Center(
                   child: CircularProgressIndicator(
                     value: loadingProgress.expectedTotalBytes != null
@@ -38,13 +39,13 @@ class ProductDetailsView extends StatelessWidget {
                 );
               },
               errorBuilder: (context, error, stackTrace) {
-                return Text('Error al cargar la imagen');
+                return const Text('Error al cargar la imagen');
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
-              'Precio: \$${precio}',
-              style: TextStyle(fontSize: 20),
+              'Precio: \$$precio',
+              style: const TextStyle(fontSize: 20),
             ),
           ],
         ),

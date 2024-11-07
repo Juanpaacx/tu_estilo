@@ -8,7 +8,7 @@ class ProductDetailsView extends StatelessWidget {
   ProductDetailsView({
     required this.nombre,
     required this.precio,
-    required this.imagen,
+    required this.imagen, required descripcion,
   });
 
   @override

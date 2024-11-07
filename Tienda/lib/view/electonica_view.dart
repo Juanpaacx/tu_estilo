@@ -41,8 +41,8 @@ class _ElectronicaViewState extends State<ElectronicaView> {
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, // Mostrar 3 productos por fila
-            childAspectRatio: 3 / 4, // Tarjetas más compactas
+            crossAxisCount: 2, // Mostrar 2 productos por fila
+            childAspectRatio: 3 / 4,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
           ),
@@ -58,21 +58,31 @@ class _ElectronicaViewState extends State<ElectronicaView> {
                       nombre: producto.name,
                       precio: producto.price.toString(),
                       imagen: producto.imageUrl,
+                      descripcion: producto.description, // Pasar descripción del producto
                     ),
                   ),
                 );
               },
               child: Card(
                 elevation: 3.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(producto.imageUrl),
-                            fit: BoxFit.cover,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(producto.imageUrl),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
@@ -83,7 +93,7 @@ class _ElectronicaViewState extends State<ElectronicaView> {
                         producto.name,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: 16,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -94,8 +104,9 @@ class _ElectronicaViewState extends State<ElectronicaView> {
                       child: Text(
                         '\$${producto.price}',
                         style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: 14,
                           color: Colors.green,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

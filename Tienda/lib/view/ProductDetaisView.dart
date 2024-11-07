@@ -4,11 +4,13 @@ class ProductDetailsView extends StatelessWidget {
   final String nombre;
   final String precio;
   final String imagen;
+  final String? descripcion;
 
   ProductDetailsView({
     required this.nombre,
     required this.precio,
     required this.imagen,
+    this.descripcion,
   });
 
   @override
@@ -16,6 +18,14 @@ class ProductDetailsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(nombre), // Mostrar el nombre del producto en la barra superior
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              // Acción para navegar al carrito de compras
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView( // Scroll si el contenido es largo
         child: Padding(
@@ -40,7 +50,7 @@ class ProductDetailsView extends StatelessWidget {
               Text(
                 nombre,
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 26,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -49,27 +59,38 @@ class ProductDetailsView extends StatelessWidget {
               Text(
                 '\$${precio}',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: Colors.green,
                 ),
               ),
               SizedBox(height: 20),
-              // Descripción del producto (puedes agregar más detalles aquí)
+              // Descripción del producto
               Text(
-                'Descripción del producto va aquí. Puedes detallar las características del producto, sus materiales, cuidados, etc.',
+                descripcion ??
+                    'Descripción del producto. Puedes detallar las características del producto, materiales, cuidados, etc.',
                 style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 20),
-              // Botón para comprar (esto es opcional)
-              ElevatedButton(
-                onPressed: () {
-                  // Acción de compra (puedes personalizar esta acción)
-                },
-                child: Text('Comprar ahora'),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                  textStyle: TextStyle(fontSize: 18),
+              SizedBox(height: 30),
+              // Botón para comprar
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Acción para agregar al carrito o realizar la compra
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('$nombre agregado al carrito!'),
+                      ),
+                    );
+                  },
+                  child: Text('Agregar al carrito'),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                    textStyle: TextStyle(fontSize: 18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                 ),
               ),
             ],
