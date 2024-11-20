@@ -56,4 +56,6 @@ class LoginViewModel extends GetxController {
       isLoading(false);
     }
   }
+
+  signInWithGoogle() {}
 }

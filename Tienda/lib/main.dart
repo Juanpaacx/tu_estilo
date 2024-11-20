@@ -26,7 +26,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeView(), // Aquí indicamos que LoginView será la pantalla inicial
+      home:
+          LoginView(), // Aquí indicamos que LoginView será la pantalla inicial
     );
   }
 }

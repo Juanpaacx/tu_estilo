@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import '../models/product_model.dart';
 
 class ProductService {
-  final String baseUrl = "http://localhost:8080/api/products"; // URL de tu API
+  final String baseUrl =
+      "http://192.168.1.105:8080/api/products"; // URL de tu API
 
   // Método para obtener todos los productos
   Future<List<Product>> fetchProducts() async {
@@ -22,7 +23,8 @@ class ProductService {
         return body.map((dynamic item) => Product.fromJson(item)).toList();
       } else {
         print("Error: ${response.statusCode}");
-        throw Exception("Error al cargar los productos: ${response.statusCode}");
+        throw Exception(
+            "Error al cargar los productos: ${response.statusCode}");
       }
     } catch (e) {
       print("Error de conexión: $e");
@@ -73,7 +75,8 @@ class ProductService {
         List<dynamic> data = jsonDecode(response.body);
         return data.map((dynamic item) => Product.fromJson(item)).toList();
       } else {
-        throw Exception("Error al cargar productos de la categoría: ${response.statusCode}");
+        throw Exception(
+            "Error al cargar productos de la categoría: ${response.statusCode}");
       }
     } catch (e) {
       print("Error de conexión: $e");

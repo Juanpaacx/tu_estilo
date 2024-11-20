@@ -169,6 +169,7 @@ public class UsuarioController {
     }
 }
 */
+/* este esta incompleto
 package com.tuestilo.tu_estilo_backend.controller;
 
 import java.util.List;
@@ -188,6 +189,90 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tuestilo.tu_estilo_backend.model.User;
+import com.tuestilo.tu_estilo_backend.service.UsuarioService;
+
+
+
+
+
+@RestController
+@RequestMapping("/api/users")
+public class UsuarioController {
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    // Endpoint para obtener todos los usuarios
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsuarios() {
+        List<User> usuarios = usuarioService.getAllUsuarios();
+        return new ResponseEntity<>(usuarios, HttpStatus.OK);
+    }
+
+    // Endpoint para obtener un usuario por su ID
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUsuarioById(@PathVariable Long id) {
+        Optional<User> usuario = usuarioService.getUsuarioById(id);
+        return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // Endpoint para crear un nuevo usuario
+    @PostMapping
+    public ResponseEntity<User> createUsuario(@Valid @RequestBody User usuario) {
+        try {
+            User nuevoUsuario = usuarioService.saveUsuario(usuario);
+            return new ResponseEntity<>(nuevoUsuario, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Endpoint para actualizar un usuario existente
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUsuario(@PathVariable Long id, @Valid @RequestBody User usuario) {
+        Optional<User> usuarioExistente = usuarioService.getUsuarioById(id);
+        if (usuarioExistente.isPresent()) {
+            usuario.setId(id); // Asegúrate de que el ID esté configurado correctamente
+            User usuarioActualizado = usuarioService.saveUsuario(usuario);
+            return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Endpoint para eliminar un usuario por su ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
+        Optional<User> usuarioExistente = usuarioService.getUsuarioById(id);
+        if (usuarioExistente.isPresent()) {
+            usuarioService.deleteUsuario(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}
+*/package com.tuestilo.tu_estilo_backend.controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tuestilo.tu_estilo_backend.model.LoginRequestt;
 import com.tuestilo.tu_estilo_backend.model.User;
 import com.tuestilo.tu_estilo_backend.service.UsuarioService;
 
@@ -245,6 +330,21 @@ public class UsuarioController {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Nuevo Endpoint para login
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequestt loginRequest) {
+        // Verifica las credenciales del usuario (esto se hace en el servicio)
+        String result = usuarioService.login(loginRequest.getEmail(), loginRequest.getPassword());
+        
+        if (result != null) {
+            // Si las credenciales son correctas, devolver el JWT
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            // Si las credenciales no son válidas, retornar un error 401
+            return new ResponseEntity<>("Credenciales inválidas", HttpStatus.UNAUTHORIZED);
         }
     }
 }
