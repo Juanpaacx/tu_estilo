@@ -135,13 +135,15 @@ class AuthService {
   }
 }
 */
+
+/*
 import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
   final String baseUrl =
-      "http://192.168.1.105:8080/api/users"; // Ajusta según tu backend
+      "http://10.50.32.23:8080/api/users"; // Ajusta según tu backend
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   // **Método para hacer login clásico**
@@ -177,6 +179,134 @@ class AuthService {
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(
             {'email': email, 'password': password, 'nombre': nombre}),
+      );
+
+      if (response.statusCode == 201) {
+        print('Registro exitoso');
+        return true;
+      } else {
+        print('Error al registrar: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Mensaje de error: $e');
+      return false;
+    }
+  }
+
+  // **Método para cerrar sesión**
+  Future<void> logout() async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/logout'),
+        headers: {"Content-Type": "application/json"},
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception('Error al cerrar sesión');
+      } else {
+        print('Cierre de sesión exitoso');
+      }
+    } catch (e) {
+      print('Mensaje de error: $e');
+    }
+  }
+
+  // **Método para iniciar sesión con Google**
+  Future<String> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        return 'Inicio de sesión cancelado';
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final String? idToken = googleAuth.idToken;
+
+      if (idToken != null) {
+        // Envía el ID Token al backend
+        final response = await http.post(
+          Uri.parse('http://192.168.100.34:8080/api/google-login'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'idToken': idToken}),
+        );
+
+        if (response.statusCode == 200) {
+          print('Inicio de sesión con Google exitoso: ${response.body}');
+          return response.body; // Devuelve mensaje del backend
+        } else {
+          print('Error en el inicio de sesión con Google: ${response.body}');
+          return 'Error en el inicio de sesión con Google';
+        }
+      } else {
+        return 'No se pudo obtener el token de Google';
+      }
+    } catch (error) {
+      print('Error al iniciar sesión con Google: $error');
+      return 'Error al iniciar sesión con Google';
+    }
+  }
+}
+
+ya no marcaba errores pero tampoco funcionaba bien
+*/
+
+import 'dart:convert';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
+
+class AuthService {
+  final String baseUrl =
+      "http://192.168.1.109:8080/api/users"; // Ajusta según tu backend
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  // **Método para hacer login clásico**
+  Future<bool> login(String email, String password) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/login'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({'email': email, 'password': password}),
+      );
+
+      if (response.statusCode == 200) {
+        print('Login exitoso: ${response.body}');
+        return true;
+      } else if (response.statusCode == 401) {
+        print('Credenciales incorrectas');
+        return false;
+      } else {
+        print('Error de autenticación: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Mensaje de error: $e');
+      return false;
+    }
+  }
+
+  // **Método para registrar un nuevo usuario**
+  Future<bool> register({
+    required String email,
+    required String password,
+    required String firstName,
+    required String lastName,
+    required String phone,
+    required int addressId, // Llave foránea
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/register'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+          'first_name': firstName,
+          'last_name': lastName,
+          'phone': phone,
+          'address_id': addressId, // Llave foránea
+        }),
       );
 
       if (response.statusCode == 201) {
