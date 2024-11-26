@@ -10,7 +10,9 @@ class RegisterView extends StatelessWidget {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController addressIdController = TextEditingController();
+
+  RegisterView({super.key});
+  /*final TextEditingController addressIdController = TextEditingController();*/
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +40,11 @@ class RegisterView extends StatelessWidget {
                 controller: phoneController,
                 decoration: const InputDecoration(labelText: 'Teléfono'),
               ),
-              TextField(
+              /* TextField(
                 controller: addressIdController,
                 decoration: const InputDecoration(labelText: 'ID de Dirección'),
                 keyboardType: TextInputType.number,
-              ),
+              ),*/
               TextField(
                 controller: passwordController,
                 decoration: const InputDecoration(labelText: 'Contraseña'),
@@ -56,15 +58,17 @@ class RegisterView extends StatelessWidget {
                   final firstName = firstNameController.text.trim();
                   final lastName = lastNameController.text.trim();
                   final phone = phoneController.text.trim();
-                  final addressId =
-                      int.tryParse(addressIdController.text.trim()) ?? 0;
+                  /*final addressId =
+                      int.tryParse(addressIdController.text.trim()) ?? 0;*/
 
                   if (email.isEmpty ||
-                      password.isEmpty ||
-                      firstName.isEmpty ||
-                      lastName.isEmpty ||
-                      phone.isEmpty ||
-                      addressId == 0) {
+                          password.isEmpty ||
+                          firstName.isEmpty ||
+                          lastName.isEmpty ||
+                          phone
+                              .isEmpty /*||
+                      addressId == 0*/
+                      ) {
                     Get.snackbar('Error',
                         'Por favor completa todos los campos correctamente');
                     return;
@@ -76,7 +80,7 @@ class RegisterView extends StatelessWidget {
                     firstName: firstName,
                     lastName: lastName,
                     phone: phone,
-                    addressId: addressId,
+                    /*addressId: addressId,*/
                   );
 
                   if (success) {

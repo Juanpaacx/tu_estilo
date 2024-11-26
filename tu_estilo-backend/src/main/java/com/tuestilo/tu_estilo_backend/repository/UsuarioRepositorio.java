@@ -26,11 +26,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.tuestilo.tu_estilo_backend.model.User;
+import com.tuestilo.tu_estilo_backend.model.URegist;
 
 @Repository
-public interface UsuarioRepositorio extends JpaRepository<User, Long> {
+public interface UsuarioRepositorio extends JpaRepository<URegist, Long> {
     // Método para encontrar un usuario por su email
-    @Query("SELECT u FROM User u WHERE u.email = ?1")
-    Optional<User> findByEmail(String email);
+    @Query("SELECT u FROM URegist u WHERE u.email = ?1")
+    Optional<URegist> findByEmail(String email);
+
+    
 }

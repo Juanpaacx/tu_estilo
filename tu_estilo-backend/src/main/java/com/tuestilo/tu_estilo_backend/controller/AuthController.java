@@ -30,6 +30,7 @@ public class AuthController {
 }
 */
 // Ajusta la declaración del paquete al inicio del archivo
+/* 
 package com.tuestilo.tu_estilo_backend.controller;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -80,3 +81,4 @@ public class AuthController {
         }
     }
 }
+*/

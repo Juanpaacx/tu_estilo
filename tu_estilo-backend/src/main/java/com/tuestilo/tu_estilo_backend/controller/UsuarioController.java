@@ -253,7 +253,8 @@ public class UsuarioController {
         }
     }
 }
-*/package com.tuestilo.tu_estilo_backend.controller;
+*/
+/*package com.tuestilo.tu_estilo_backend.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -295,8 +296,8 @@ public class UsuarioController {
     public ResponseEntity<User> getUsuarioById(@PathVariable Long id) {
         Optional<User> usuario = usuarioService.getUsuarioById(id);
         return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
+    }*/
+/* 
     // Endpoint para crear un nuevo usuario
     @PostMapping
     public ResponseEntity<User> createUsuario(@Valid @RequestBody User usuario) {
@@ -306,9 +307,10 @@ public class UsuarioController {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-    }
+    }*/
 
     // Endpoint para actualizar un usuario existente
+    /* 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUsuario(@PathVariable Long id, @Valid @RequestBody User usuario) {
         Optional<User> usuarioExistente = usuarioService.getUsuarioById(id);
@@ -348,3 +350,4 @@ public class UsuarioController {
         }
     }
 }
+*/

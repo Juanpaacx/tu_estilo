@@ -1,4 +1,4 @@
-package com.tuestilo.tu_estilo_backend.model;
+/*package com.tuestilo.tu_estilo_backend.model;
 import java.io.Serializable;
 
 import jakarta.persistence.Column;
@@ -6,10 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn; // Asegúrate de que esto esté presente
-import jakarta.persistence.ManyToOne; // Importa Serializable
-import jakarta.persistence.Table;
-
+import jakarta.persistence.Table; // Asegúrate de que esto esté presente
+*/
+/* 
 @Entity
 @Table(name = "users") // Tabla para almacenar los usuarios
 public class User implements Serializable {
@@ -18,7 +17,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // ID autogenerado
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String firstName; // Nombre del usuario
 
     @Column(nullable = false)
@@ -32,20 +31,21 @@ public class User implements Serializable {
 
     @Column(nullable = false)
     private String phone; // Teléfono del usuario
-
+    */
+/* 
     @ManyToOne // Relación muchos a uno con Dirección
     @JoinColumn(name = "address_id", nullable = false) // Clave foránea a la tabla de direcciones
-    private Address address; // Dirección del usuario
+   private Address address; // Dirección del usuario */
 
-    public User() {}
+   /*  public User() {}
 
-    public User(String firstName, String lastName, String email, String password, String phone, Address address) {
-        this.firstName = firstName;
+    public User(String firstName, String lastName, String email, String password, String phone/*, Address address*//*) {*/
+    /*    this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.phone = phone;
-        this.address = address;
+      // this.address = address;
     }
 
     // Getters y Setters
@@ -95,13 +95,18 @@ public class User implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
+    }*/
+    
+/* 
     public Address getAddress() {
         return address;
     }
 
+    */
+/* 
     public void setAddress(Address address) {
         this.address = address;
-    }
-}
+    }*/
+
+//}
+
