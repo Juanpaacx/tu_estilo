@@ -1,0 +1,51 @@
+trigger:
+- main  # Cambia la rama si es necesario
+
+pool:
+  vmImage: 'ubuntu-latest'  # Usa una imagen de Ubuntu
+
+variables:
+  FLUTTER_VERSION: '3.5.3'  # Cambia a la versión de Flutter que necesitas
+
+steps:
+# Instalar Flutter
+- task: UseFlutter@1
+  inputs:
+    version: 'custom'  # Personalizado para instalar la versión especificada
+    flutterChannel: 'stable'  # El canal puede ser stable, beta, dev o master
+    flutterVersion: $(FLUTTER_VERSION)
+
+# Verificar instalación de Flutter
+- script: flutter --version
+  displayName: 'Verificar instalación de Flutter'
+
+# Descargar el código fuente
+- checkout: self
+
+# Instalar dependencias de Flutter
+- script: flutter pub get
+  displayName: 'Instalar dependencias'
+
+# Opcional: Verificar que el código sigue las reglas de lint
+- script: flutter analyze
+  displayName: 'Análisis de código'
+
+# Ejecutar pruebas
+- script: flutter test
+  displayName: 'Ejecutar pruebas unitarias'
+
+# Construir la aplicación para Android
+- script: flutter build apk --release
+  displayName: 'Construir APK para Android'
+
+# Opcional: Construir la aplicación para iOS
+# - script: flutter build ios --release
+#   displayName: 'Construir aplicación para iOS'
+#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))  # Sólo para macOS
+
+# Publicar artefactos (APK generado)
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'build/app/outputs/flutter-apk/app-release.apk'
+    artifact: 'apk-release'
+  displayName: 'Publicar APK generado'
